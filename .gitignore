@@ -1,8 +1,12 @@
-**/generated/
-/report/
-/tmp/
-/bin/isocost-zebrac-records
+# Build output
+/build/
 
-# AI Dev Rules
-.codex/
-.cursor/
+# Generated reports (examples/render.sh and local runs)
+**/generated/
+
+# Inputs built by the example bench scripts
+/examples/*/data/
+
+# Local workspace: experiments and planning
+/tmp/
+/plan/
