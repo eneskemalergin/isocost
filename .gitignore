@@ -1,0 +1,8 @@
+**/generated/
+/report/
+/tmp/
+/bin/isocost-zebrac-records
+
+# AI Dev Rules
+.codex/
+.cursor/
