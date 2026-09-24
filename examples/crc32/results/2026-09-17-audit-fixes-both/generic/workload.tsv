@@ -1,0 +1,22 @@
+candidate	command
+c-corsix-fast-crc32__random-65536__one-shot__c0__i100	./.local/build/generic/linux-x86_64/c-corsix-fast-crc32 --mode one-shot --iterations 100 --expected 0xee71a327 ./.local/corpus/random-65536.bin
+c-corsix-fast-crc32__random-65536__streaming__c65536__i100	./.local/build/generic/linux-x86_64/c-corsix-fast-crc32 --mode streaming --iterations 100 --chunk 65536 --expected 0xee71a327 ./.local/corpus/random-65536.bin
+c-gityf-crc32__random-65536__one-shot__c0__i100	./.local/build/generic/linux-x86_64/c-gityf-crc32 --mode one-shot --iterations 100 --expected 0xee71a327 ./.local/corpus/random-65536.bin
+c-isa-l__random-65536__one-shot__c0__i100	./.local/build/generic/linux-x86_64/c-isa-l --mode one-shot --iterations 100 --expected 0xee71a327 ./.local/corpus/random-65536.bin
+c-isa-l__random-65536__streaming__c65536__i100	./.local/build/generic/linux-x86_64/c-isa-l --mode streaming --iterations 100 --chunk 65536 --expected 0xee71a327 ./.local/corpus/random-65536.bin
+c-libdeflate-system__random-65536__one-shot__c0__i100	./.local/build/generic/linux-x86_64/c-libdeflate-system --mode one-shot --iterations 100 --expected 0xee71a327 ./.local/corpus/random-65536.bin
+c-libdeflate-system__random-65536__streaming__c65536__i100	./.local/build/generic/linux-x86_64/c-libdeflate-system --mode streaming --iterations 100 --chunk 65536 --expected 0xee71a327 ./.local/corpus/random-65536.bin
+c-zlib-system__random-65536__one-shot__c0__i100	./.local/build/generic/linux-x86_64/c-zlib-system --mode one-shot --iterations 100 --expected 0xee71a327 ./.local/corpus/random-65536.bin
+c-zlib-system__random-65536__streaming__c65536__i100	./.local/build/generic/linux-x86_64/c-zlib-system --mode streaming --iterations 100 --chunk 65536 --expected 0xee71a327 ./.local/corpus/random-65536.bin
+cpp-libdeflate-system__random-65536__one-shot__c0__i100	./.local/build/generic/linux-x86_64/cpp-libdeflate-system --mode one-shot --iterations 100 --expected 0xee71a327 ./.local/corpus/random-65536.bin
+cpp-libdeflate-system__random-65536__streaming__c65536__i100	./.local/build/generic/linux-x86_64/cpp-libdeflate-system --mode streaming --iterations 100 --chunk 65536 --expected 0xee71a327 ./.local/corpus/random-65536.bin
+cpp-stbrumme-crc32__random-65536__one-shot__c0__i100	./.local/build/generic/linux-x86_64/cpp-stbrumme-crc32 --mode one-shot --iterations 100 --expected 0xee71a327 ./.local/corpus/random-65536.bin
+cpp-stbrumme-crc32__random-65536__streaming__c65536__i100	./.local/build/generic/linux-x86_64/cpp-stbrumme-crc32 --mode streaming --iterations 100 --chunk 65536 --expected 0xee71a327 ./.local/corpus/random-65536.bin
+rust-crc-fast__random-65536__one-shot__c0__i100	./.local/build/generic/linux-x86_64/rust-crc-fast --mode one-shot --iterations 100 --expected 0xee71a327 ./.local/corpus/random-65536.bin
+rust-crc-fast__random-65536__streaming__c65536__i100	./.local/build/generic/linux-x86_64/rust-crc-fast --mode streaming --iterations 100 --chunk 65536 --expected 0xee71a327 ./.local/corpus/random-65536.bin
+rust-crc32fast__random-65536__one-shot__c0__i100	./.local/build/generic/linux-x86_64/rust-crc32fast --mode one-shot --iterations 100 --expected 0xee71a327 ./.local/corpus/random-65536.bin
+rust-crc32fast__random-65536__streaming__c65536__i100	./.local/build/generic/linux-x86_64/rust-crc32fast --mode streaming --iterations 100 --chunk 65536 --expected 0xee71a327 ./.local/corpus/random-65536.bin
+zig-crc32-dispatch-v1__random-65536__one-shot__c0__i100	./.local/build/generic/linux-x86_64/zig-crc32-dispatch --mode one-shot --iterations 100 --expected 0xee71a327 ./.local/corpus/random-65536.bin
+zig-crc32-dispatch-v1__random-65536__streaming__c65536__i100	./.local/build/generic/linux-x86_64/zig-crc32-dispatch --mode streaming --iterations 100 --chunk 65536 --expected 0xee71a327 ./.local/corpus/random-65536.bin
+zig-stdlib__random-65536__one-shot__c0__i100	./.local/build/generic/linux-x86_64/zig-stdlib --mode one-shot --iterations 100 --expected 0xee71a327 ./.local/corpus/random-65536.bin
+zig-stdlib__random-65536__streaming__c65536__i100	./.local/build/generic/linux-x86_64/zig-stdlib --mode streaming --iterations 100 --chunk 65536 --expected 0xee71a327 ./.local/corpus/random-65536.bin

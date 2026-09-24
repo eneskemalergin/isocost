@@ -1,0 +1,20 @@
+# crc-bench CRC-32 candidates: one audit run, native and generic builds.
+schema = 1
+
+[report]
+title = "CRC-32 implementations"
+baseline = "zig-stdlib"
+formats = ["png", "svg", "pdf"]
+
+[[group]]
+match = "one-shot*native*"
+title = "CRC-32 one-shot on 64 KiB, native build"
+[[group]]
+match = "one-shot*generic*"
+title = "CRC-32 one-shot on 64 KiB, generic build"
+[[group]]
+match = "streaming*native*"
+title = "CRC-32 streaming in 64 KiB chunks, native build"
+[[group]]
+match = "streaming*generic*"
+title = "CRC-32 streaming in 64 KiB chunks, generic build"
