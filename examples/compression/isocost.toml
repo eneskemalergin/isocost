@@ -1,0 +1,98 @@
+# Seven compressors on three 16 MiB inputs, measured with Zebrac by bench.sh.
+schema = 1
+
+[report]
+title = "Seven compressors on three 16 MiB inputs"
+formats = ["png", "svg", "pdf"]
+
+[[group]]
+match = "compress"
+title = "Compression time and memory, relative to gzip -6"
+baseline = "gzip -6"
+
+[[group]]
+match = "decompress"
+title = "Decompression time and memory, relative to gzip"
+baseline = "gzip -d"
+
+# Compression commands. The executable is the tool family, so each tool keeps
+# one color and shape in both figures.
+[[tool]]
+id = "gzip -6"
+match = "gzip -6 *"
+order = 1
+[[tool]]
+id = "pigz -6"
+match = "pigz -6 *"
+label = "pigz -6 (all cores)"
+order = 2
+[[tool]]
+id = "zstd -3"
+match = "zstd -3 *"
+order = 3
+[[tool]]
+id = "lz4 -1"
+match = "lz4 -1 *"
+order = 4
+[[tool]]
+id = "brotli -q 6"
+match = "brotli -q 6 *"
+order = 5
+[[tool]]
+id = "bzip2 -9"
+match = "bzip2 -9 *"
+order = 6
+[[tool]]
+id = "xz -6"
+match = "xz -6 *"
+order = 7
+
+# Decompression commands.
+[[tool]]
+id = "gzip -d"
+match = "gzip -d *"
+label = "gzip"
+order = 1
+[[tool]]
+id = "pigz -d"
+match = "pigz -d *"
+label = "pigz"
+order = 2
+[[tool]]
+id = "zstd -d"
+match = "zstd -d *"
+label = "zstd"
+order = 3
+[[tool]]
+id = "lz4 -d"
+match = "lz4 -d *"
+label = "lz4"
+order = 4
+[[tool]]
+id = "brotli -d"
+match = "brotli -d *"
+label = "brotli"
+order = 5
+[[tool]]
+id = "bzip2 -d"
+match = "bzip2 -d *"
+label = "bzip2"
+order = 6
+[[tool]]
+id = "xz -d"
+match = "xz -d *"
+label = "xz"
+order = 7
+
+[[workload]]
+id = "source"
+label = "C headers (tar)"
+order = 1
+[[workload]]
+id = "binary"
+label = "Executables"
+order = 2
+[[workload]]
+id = "reads"
+label = "FASTQ reads"
+order = 3

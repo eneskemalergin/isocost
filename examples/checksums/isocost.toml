@@ -1,0 +1,47 @@
+# Six checksum tools on random files of 4, 64, and 256 MiB, measured with Zebrac by bench.sh.
+schema = 1
+
+[report]
+title = "Checksum tools on random data"
+baseline = "sha256sum"
+formats = ["png", "svg", "pdf"]
+
+[figure]
+title = "Checksum run time and memory, relative to sha256sum"
+
+[workloads]
+sort = "config"
+
+[[tool]]
+id = "md5sum"
+match = "md5sum *"
+[[tool]]
+id = "sha1sum"
+match = "sha1sum *"
+[[tool]]
+id = "sha256sum"
+match = "sha256sum *"
+[[tool]]
+id = "sha512sum"
+match = "sha512sum *"
+[[tool]]
+id = "b2sum"
+match = "b2sum *"
+label = "b2sum (BLAKE2b)"
+[[tool]]
+id = "cksum"
+match = "cksum *"
+label = "cksum (CRC)"
+
+[[workload]]
+id = "random-4m"
+label = "4 MiB"
+order = 1
+[[workload]]
+id = "random-64m"
+label = "64 MiB"
+order = 2
+[[workload]]
+id = "random-256m"
+label = "256 MiB"
+order = 3

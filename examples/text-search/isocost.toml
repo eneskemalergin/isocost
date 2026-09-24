@@ -1,0 +1,40 @@
+# GNU grep and ripgrep searching a copy of /usr/include, measured with Zebrac by bench.sh.
+schema = 1
+
+[report]
+title = "grep and ripgrep on C headers"
+baseline = "grep"
+formats = ["png", "svg", "pdf"]
+
+[figure]
+title = "Recursive text search, relative to GNU grep"
+
+# The first matching entry wins, so the one-thread ripgrep rule comes first.
+[[tool]]
+id = "grep"
+match = "grep -r *"
+label = "GNU grep"
+order = 1
+[[tool]]
+id = "rg -j1"
+match = "rg * -j1 *"
+label = "ripgrep (1 thread)"
+order = 2
+[[tool]]
+id = "rg"
+match = "rg *"
+label = "ripgrep (all threads)"
+order = 3
+
+[[workload]]
+id = "literal"
+label = "Literal word"
+[[workload]]
+id = "ignore-case"
+label = "Case-insensitive word"
+[[workload]]
+id = "regex"
+label = "Regular expression"
+[[workload]]
+id = "rare-word"
+label = "Rare word"
