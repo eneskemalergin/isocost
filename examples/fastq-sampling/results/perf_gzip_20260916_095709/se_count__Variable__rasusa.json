@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "zebrac_version": "0.6.2",
+  "config": {
+    "duration_ms": 5000,
+    "min_samples": 5,
+    "max_samples": 10000,
+    "max_samples_cap": 10000,
+    "max_samples_requested": null,
+    "warmup": 3,
+    "allow_failures": false
+  },
+  "results": [
+    {
+      "command": "./tools/bin/rasusa reads -n 1000 -s 11 ./bench/shared/data/REAL_Variable.fastq.gz",
+      "sample_count": 6,
+      "failed_sample_count": 0,
+      "argv": [
+        "./tools/bin/rasusa",
+        "reads",
+        "-n",
+        "1000",
+        "-s",
+        "11",
+        "./bench/shared/data/REAL_Variable.fastq.gz"
+      ],
+      "wall_time": {
+        "mean": 925950157.8333334,
+        "std_dev": 38672653.646163344,
+        "min": 896634997,
+        "max": 1000265638,
+        "median": 925050535,
+        "q1": 898476414,
+        "q3": 1000265638,
+        "outlier_count": 0,
+        "sample_count": 6,
+        "unit": "nanoseconds"
+      },
+      "peak_rss": {
+        "mean": 6035456,
+        "std_dev": 142990.8848115851,
+        "min": 5898240,
+        "max": 6172672,
+        "median": 6156288,
+        "q1": 5906432,
+        "q3": 6172672,
+        "outlier_count": 0,
+        "sample_count": 6,
+        "unit": "bytes"
+      },
+      "minor_faults": {
+        "mean": 431.8333333333333,
+        "std_dev": 0.983192080250175,
+        "min": 431,
+        "max": 433,
+        "median": 432,
+        "q1": 431,
+        "q3": 433,
+        "outlier_count": 0,
+        "sample_count": 6,
+        "unit": "count"
+      },
+      "major_faults": {
+        "mean": 0,
+        "std_dev": 0,
+        "min": 0,
+        "max": 0,
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "outlier_count": 0,
+        "sample_count": 6,
+        "unit": "count"
+      },
+      "cpu_cycles": {
+        "mean": 3336826711.5,
+        "std_dev": 129047664.16529171,
+        "min": 3239193632,
+        "max": 3584908055,
+        "median": 3332900513,
+        "q1": 3245706340,
+        "q3": 3584908055,
+        "outlier_count": 0,
+        "sample_count": 6,
+        "unit": "count"
+      },
+      "instructions": {
+        "mean": 6666558812.666667,
+        "std_dev": 481.5535968785475,
+        "min": 6666558291,
+        "max": 6666559588,
+        "median": 6666558837,
+        "q1": 6666558453,
+        "q3": 6666559588,
+        "outlier_count": 0,
+        "sample_count": 6,
+        "unit": "count"
+      },
+      "cache_references": {
+        "mean": 129591236.5,
+        "std_dev": 15427949.774043351,
+        "min": 117142891,
+        "max": 158732476,
+        "median": 129049514,
+        "q1": 117698059,
+        "q3": 158732476,
+        "outlier_count": 0,
+        "sample_count": 6,
+        "unit": "count"
+      },
+      "cache_misses": {
+        "mean": 1321995.5,
+        "std_dev": 1032777.1371049515,
+        "min": 473658,
+        "max": 3242033,
+        "median": 1372171,
+        "q1": 505081,
+        "q3": 3242033,
+        "outlier_count": 0,
+        "sample_count": 6,
+        "unit": "count"
+      },
+      "branch_misses": {
+        "mean": 51563204.333333336,
+        "std_dev": 79902.63122492692,
+        "min": 51463951,
+        "max": 51673291,
+        "median": 51543080,
+        "q1": 51512077,
+        "q3": 51673291,
+        "outlier_count": 0,
+        "sample_count": 6,
+        "unit": "count"
+      }
+    }
+  ]
+}

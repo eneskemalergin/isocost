@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "zebrac_version": "0.6.2",
+  "config": {
+    "duration_ms": 5000,
+    "min_samples": 5,
+    "max_samples": 5,
+    "max_samples_cap": 10000,
+    "max_samples_requested": null,
+    "warmup": 3,
+    "allow_failures": false
+  },
+  "results": [
+    {
+      "command": "bash -c ./tools/bin/rustbio\\ stats\\ ./bench/shared/data/REAL_Genome.fa\\ \\>\\ /dev/null",
+      "sample_count": 5,
+      "failed_sample_count": 0,
+      "argv": [
+        "bash",
+        "-c",
+        "./tools/bin/rustbio stats ./bench/shared/data/REAL_Genome.fa > /dev/null"
+      ],
+      "wall_time": {
+        "mean": 6957422154,
+        "std_dev": 53511232.145004414,
+        "min": 6891092049,
+        "max": 7026711588,
+        "median": 6940027805,
+        "q1": 6934255860,
+        "q3": 7026711588,
+        "outlier_count": 0,
+        "sample_count": 5,
+        "unit": "nanoseconds"
+      },
+      "peak_rss": {
+        "mean": 250963558.4,
+        "std_dev": 88638.4242459217,
+        "min": 250826752,
+        "max": 251039744,
+        "median": 250986496,
+        "q1": 250929152,
+        "q3": 251039744,
+        "outlier_count": 0,
+        "sample_count": 5,
+        "unit": "bytes"
+      },
+      "minor_faults": {
+        "mean": 754916.2,
+        "std_dev": 3.492849839314596,
+        "min": 754912,
+        "max": 754921,
+        "median": 754916,
+        "q1": 754914,
+        "q3": 754921,
+        "outlier_count": 0,
+        "sample_count": 5,
+        "unit": "count"
+      },
+      "major_faults": {
+        "mean": 0,
+        "std_dev": 0,
+        "min": 0,
+        "max": 0,
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "outlier_count": 0,
+        "sample_count": 5,
+        "unit": "count"
+      },
+      "cpu_cycles": {
+        "mean": 17578360887.2,
+        "std_dev": 92939868.02018942,
+        "min": 17451038791,
+        "max": 17667123117,
+        "median": 17601338950,
+        "q1": 17516108092,
+        "q3": 17667123117,
+        "outlier_count": 0,
+        "sample_count": 5,
+        "unit": "count"
+      },
+      "instructions": {
+        "mean": 46529542819.4,
+        "std_dev": 399.3698786839087,
+        "min": 46529542390,
+        "max": 46529543411,
+        "median": 46529542753,
+        "q1": 46529542554,
+        "q3": 46529543411,
+        "outlier_count": 0,
+        "sample_count": 5,
+        "unit": "count"
+      },
+      "cache_references": {
+        "mean": 168104648.4,
+        "std_dev": 2735957.5577153605,
+        "min": 164404959,
+        "max": 171980426,
+        "median": 168137103,
+        "q1": 167222655,
+        "q3": 171980426,
+        "outlier_count": 0,
+        "sample_count": 5,
+        "unit": "count"
+      },
+      "cache_misses": {
+        "mean": 1653625.4,
+        "std_dev": 239708.79715146043,
+        "min": 1372054,
+        "max": 2036950,
+        "median": 1617458,
+        "q1": 1611827,
+        "q3": 2036950,
+        "outlier_count": 0,
+        "sample_count": 5,
+        "unit": "count"
+      },
+      "branch_misses": {
+        "mean": 5622270.4,
+        "std_dev": 30382.331910174373,
+        "min": 5592826,
+        "max": 5668877,
+        "median": 5612285,
+        "q1": 5602438,
+        "q3": 5668877,
+        "outlier_count": 0,
+        "sample_count": 5,
+        "unit": "count"
+      }
+    }
+  ]
+}

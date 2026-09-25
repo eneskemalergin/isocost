@@ -1,0 +1,26 @@
+# z-fasta stats suite: FASTA statistics tools, copied from the z-fasta benchmark.
+schema = 1
+
+[report]
+title = "FASTA statistics: z-fasta and three other tools"
+baseline = "z-fasta-fai"
+formats = ["png", "svg", "pdf"]
+
+[[group]]
+match = "perf_full"
+title = "FASTA statistics on full files"
+[[group]]
+match = "scale_size"
+title = "FASTA statistics as file size grows"
+[[group]]
+match = "scale_seqs_fixed"
+title = "FASTA statistics as sequence count grows"
+
+[[tool]]
+id = "z-fasta-fai"
+label = "z-fasta (FAI index)"
+order = 1
+[[tool]]
+id = "z-fasta-zfi"
+label = "z-fasta (ZFI index)"
+order = 2

@@ -1,0 +1,23 @@
+# z-fastq sample suite: eight FASTQ subsampling tools, copied from the z-fastq benchmark.
+schema = 1
+
+[report]
+title = "FASTQ subsampling: z-fastq and seven other tools"
+baseline = "z-fastq"
+formats = ["png", "svg", "pdf"]
+
+[[group]]
+match = "perf_plain"
+title = "FASTQ subsampling, uncompressed input"
+
+[[group]]
+match = "perf_gzip"
+title = "FASTQ subsampling, gzip-compressed input"
+
+[[tool]]
+id = "z-fastq"
+order = 1
+[[tool]]
+id = "z-fastq-native"
+label = "z-fastq (native gzip)"
+order = 2

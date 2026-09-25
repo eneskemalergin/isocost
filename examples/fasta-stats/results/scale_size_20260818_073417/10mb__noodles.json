@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "zebrac_version": "0.6.2",
+  "config": {
+    "duration_ms": 5000,
+    "min_samples": 5,
+    "max_samples": 5,
+    "max_samples_cap": 10000,
+    "max_samples_requested": null,
+    "warmup": 3,
+    "allow_failures": false
+  },
+  "results": [
+    {
+      "command": "bash -c ./tools/bin/noodles\\ stats\\ ./bench/shared/cache/scaling/size_10mb.fasta\\ \\>\\ /dev/null",
+      "sample_count": 5,
+      "failed_sample_count": 0,
+      "argv": [
+        "bash",
+        "-c",
+        "./tools/bin/noodles stats ./bench/shared/cache/scaling/size_10mb.fasta > /dev/null"
+      ],
+      "wall_time": {
+        "mean": 15529018.6,
+        "std_dev": 2705212.0026948536,
+        "min": 14191682,
+        "max": 20359770,
+        "median": 14318123,
+        "q1": 14191743,
+        "q3": 20359770,
+        "outlier_count": 0,
+        "sample_count": 5,
+        "unit": "nanoseconds"
+      },
+      "peak_rss": {
+        "mean": 3398860.8,
+        "std_dev": 94270.3098287048,
+        "min": 3231744,
+        "max": 3452928,
+        "median": 3432448,
+        "q1": 3424256,
+        "q3": 3452928,
+        "outlier_count": 1,
+        "sample_count": 5,
+        "unit": "bytes"
+      },
+      "minor_faults": {
+        "mean": 358.8,
+        "std_dev": 3.8987177379235853,
+        "min": 354,
+        "max": 364,
+        "median": 360,
+        "q1": 356,
+        "q3": 364,
+        "outlier_count": 0,
+        "sample_count": 5,
+        "unit": "count"
+      },
+      "major_faults": {
+        "mean": 0,
+        "std_dev": 0,
+        "min": 0,
+        "max": 0,
+        "median": 0,
+        "q1": 0,
+        "q3": 0,
+        "outlier_count": 0,
+        "sample_count": 5,
+        "unit": "count"
+      },
+      "cpu_cycles": {
+        "mean": 41999284.6,
+        "std_dev": 9850868.026218416,
+        "min": 37225374,
+        "max": 59609283,
+        "median": 37491397,
+        "q1": 37477674,
+        "q3": 59609283,
+        "outlier_count": 0,
+        "sample_count": 5,
+        "unit": "count"
+      },
+      "instructions": {
+        "mean": 113199178.4,
+        "std_dev": 541.2908645081682,
+        "min": 113198224,
+        "max": 113199511,
+        "median": 113199337,
+        "q1": 113199315,
+        "q3": 113199511,
+        "outlier_count": 1,
+        "sample_count": 5,
+        "unit": "count"
+      },
+      "cache_references": {
+        "mean": 789229.8,
+        "std_dev": 36762.67062796173,
+        "min": 731137,
+        "max": 816891,
+        "median": 810262,
+        "q1": 774187,
+        "q3": 816891,
+        "outlier_count": 0,
+        "sample_count": 5,
+        "unit": "count"
+      },
+      "cache_misses": {
+        "mean": 41540.8,
+        "std_dev": 4811.417535404717,
+        "min": 37086,
+        "max": 49558,
+        "median": 39902,
+        "q1": 39175,
+        "q3": 49558,
+        "outlier_count": 0,
+        "sample_count": 5,
+        "unit": "count"
+      },
+      "branch_misses": {
+        "mean": 39297.2,
+        "std_dev": 802.3326616809264,
+        "min": 38554,
+        "max": 40582,
+        "median": 39065,
+        "q1": 38775,
+        "q3": 40582,
+        "outlier_count": 0,
+        "sample_count": 5,
+        "unit": "count"
+      }
+    }
+  ]
+}
