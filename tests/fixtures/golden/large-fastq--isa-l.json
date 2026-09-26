@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "zebrac_version": "0.6.2",
+  "config": {
+    "duration_ms": 1000,
+    "min_samples": 5,
+    "warmup": 1
+  },
+  "results": [
+    {
+      "command": "./isa-l large-fastq.fastq",
+      "sample_count": 5,
+      "failed_sample_count": 0,
+      "argv": [
+        "./isa-l",
+        "large-fastq.fastq"
+      ],
+      "wall_time": {
+        "mean": 7000000.0,
+        "std_dev": 120000.0,
+        "min": 6800000.0,
+        "max": 7300000.0,
+        "median": 7000000.0,
+        "q1": 6900000.0,
+        "q3": 7100000.0,
+        "sample_count": 5,
+        "unit": "nanoseconds"
+      },
+      "peak_rss": {
+        "mean": 4500000.0,
+        "std_dev": 100000.0,
+        "min": 4400000.0,
+        "max": 4620000.0,
+        "median": 4500000.0,
+        "q1": 4450000.0,
+        "q3": 4550000.0,
+        "sample_count": 5,
+        "unit": "bytes"
+      }
+    }
+  ]
+}

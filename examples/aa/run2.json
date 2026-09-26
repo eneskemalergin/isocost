@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "zebrac_version": "0.6.2",
+  "config": {
+    "duration_ms": 5000,
+    "min_samples": 5,
+    "max_samples": 20,
+    "max_samples_cap": 20,
+    "max_samples_requested": 10,
+    "warmup": 2,
+    "allow_failures": true
+  },
+  "results": [
+    {
+      "command": "./demo-tool input.dat",
+      "sample_count": 10,
+      "failed_sample_count": 0,
+      "wall_time": {
+        "mean": 102000000,
+        "median": 102000000,
+        "q1": 101000000,
+        "q3": 103000000,
+        "min": 100000000,
+        "max": 104000000,
+        "std_dev": 1000000,
+        "unit": "nanoseconds"
+      },
+      "peak_rss": {
+        "mean": 103000000,
+        "median": 103000000,
+        "q1": 102000000,
+        "q3": 104000000,
+        "min": 101000000,
+        "max": 105000000,
+        "std_dev": 1000000,
+        "unit": "bytes"
+      }
+    }
+  ]
+}

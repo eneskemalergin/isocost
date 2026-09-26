@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "zebrac_version": "0.6.2",
+  "config": {
+    "duration_ms": 1000,
+    "min_samples": 5,
+    "warmup": 1
+  },
+  "results": [
+    {
+      "command": "./z-flate small-fastq.fastq",
+      "sample_count": 5,
+      "failed_sample_count": 0,
+      "argv": [
+        "./z-flate",
+        "small-fastq.fastq"
+      ],
+      "wall_time": {
+        "mean": 1000000.0,
+        "std_dev": 30000.0,
+        "min": 960000.0,
+        "max": 1050000.0,
+        "median": 1000000.0,
+        "q1": 980000.0,
+        "q3": 1020000.0,
+        "sample_count": 5,
+        "unit": "nanoseconds"
+      },
+      "peak_rss": {
+        "mean": 1000000.0,
+        "std_dev": 20000.0,
+        "min": 970000.0,
+        "max": 1040000.0,
+        "median": 1000000.0,
+        "q1": 990000.0,
+        "q3": 1010000.0,
+        "sample_count": 5,
+        "unit": "bytes"
+      }
+    }
+  ]
+}

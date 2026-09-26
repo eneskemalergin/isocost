@@ -1,0 +1,74 @@
+# Every section, with non-default values, to exercise the whole schema.
+schema = 1
+[report]
+title = "Golden fixture"
+baseline = "z-flate"
+statistic = "mean"
+cost = "linear"
+time_weight = 2
+memory_weight = 1
+cases = "common"
+runs = "all"
+groups = ["*"]
+suites = ["*"]
+views = ["overview", "workloads"]
+formats = ["png", "svg", "pdf"]
+data = true
+[figure]
+size = "120x80mm"
+dpi = 200
+font_scale = 1.1
+header = "show"
+title = "{project}: {workloads} workloads against {reference}"
+subtitle = ""
+legend = "bottom"
+note = "Custom note text."
+[overview]
+x_label = "Time vs {reference}"
+y_label = "Memory vs {reference}"
+x_scale = "linear"
+y_scale = "log"
+x_min = 0.5
+x_max = 2
+y_ticks = [0.5, 1, 2, 5]
+contours = true
+contour_levels = [1, 1.5]
+case_points = false
+spread = "minmax"
+ellipse = false
+pareto = false
+highlight = false
+reference_lines = true
+labels = "auto"
+[workloads]
+metrics = ["time"]
+sort = "config"
+scale = "linear"
+labels = true
+[theme]
+background = "#ffffff"
+palette = ["#1f77b4", "#ff7f0e", "#2ca02c"]
+[[tool]]
+id = "isa-l"
+label = "ISA-L"
+color = "#000000"
+shape = "star"
+fill = "hollow"
+line = "dashed"
+order = 1
+label_position = "left"
+[[tool]]
+id = "lean"
+label = "Lean"
+hide = false
+[[workload]]
+id = "small-fastq"
+label = "Small"
+order = 1
+[[workload]]
+id = "large-fastq"
+label = "Large"
+order = 2
+[[group]]
+match = "*"
+title = "Golden fixture"

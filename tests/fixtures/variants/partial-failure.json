@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "zebrac_version": "0.6.2",
+  "config": null,
+  "results": [
+    {
+      "failed_sample_count": 2,
+      "sample_count": 4,
+      "command": "z-flate --missing-input",
+      "wall_time": {
+        "median": 2000000,
+        "sample_count": 2,
+        "unit": "nanoseconds"
+      },
+      "peak_rss": null,
+      "diagnostics": {
+        "exit_codes": [1, 1]
+      }
+    }
+  ]
+}

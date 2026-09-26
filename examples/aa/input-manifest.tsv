@@ -1,0 +1,3 @@
+source_json	result_command	comparison	campaign	suite	section	operation	format	threads	data_id	manifest_id	workload	category	class	file	input_bytes	decoded_bytes	method_id	tool_family	variant_id	config	reference	run_id
+run1.json	./demo-tool input.dat	aa	aa-example	perf	plain	read	raw	1	small	small-input	small	plain	text	input.dat	1000000	1000000	demo-tool	demo-tool	demo-tool	threads-1	zebrac	run1
+run2.json	./demo-tool input.dat	aa	aa-example	perf	plain	read	raw	1	small	small-input	small	plain	text	input.dat	1000000	1000000	demo-tool	demo-tool	demo-tool	threads-1	zebrac	run2
