@@ -187,7 +187,8 @@ Scene *view_overview(const Figure *f, const Config *c, const FigureSize *size, V
         legend_draw(sc, &st, entries, nvis, LEGEND_TOP, M, top, legend_extent);
         top += legend_h + 0.3f * u;
     }
-    float plot_top = top + 0.9f * u + font_cap_height(st.axis, 0);
+    /* Half a tick label of headroom, so the top tick label stays below the legend. */
+    float plot_top = top + 0.5f * u + 0.5f * font_cap_height(st.tick, 0);
     float bottom = (float)H - M - note_h - (note_count ? 0.6f * u : 0);
     if (c->legend == LEGEND_BOTTOM && legend_h > 0) bottom -= legend_h + 0.5f * u;
     float plot_bottom = bottom - 1.25f * st.tick - 1.0f * u - font_cap_height(st.axis, 0) - 0.4f * u;
@@ -212,7 +213,9 @@ Scene *view_overview(const Figure *f, const Config *c, const FigureSize *size, V
         axis_tick_label(&ay, yticks, ny, i, buffer, sizeof(buffer));
         ytick_w = fmaxf(ytick_w, font_width(buffer, st.tick, 0));
     }
-    ax.p0 = M + ytick_w + 0.7f * u;
+    /* The y title is turned to read bottom to top, left of the tick labels. */
+    float ytitle_x = M + font_cap_height(st.axis, 0);
+    ax.p0 = ytitle_x + font_descender(st.axis, 0) + 0.7f * u + ytick_w + 0.7f * u;
     ax.p1 = right;
     size_t nx;
     if (c->x_ticks.count) {
@@ -230,10 +233,11 @@ Scene *view_overview(const Figure *f, const Config *c, const FigureSize *size, V
     placer.fx1 = px1 - 0.2f * u;
     placer.fy1 = py1 - 0.2f * u;
 
-    /* Axis titles: y above the axis, x centered below the ticks. */
+    /* Axis titles: y turned and centered on the plot height, x centered below the ticks. */
     char *xl = expand_template(c->x_label, f), *yl = expand_template(c->y_label, f);
     snprintf(buffer, sizeof(buffer), "%s (%s%s)", yl, "lower is better", ay.log ? ", log scale" : "");
-    scene_text(sc, px0, py0 - 0.7f * u, buffer, st.axis, 0, c->ink_secondary, ANCHOR_START);
+    if (font_width(buffer, st.axis, 0) > py1 - py0) snprintf(buffer, sizeof(buffer), "%s%s", yl, ay.log ? " (log scale)" : "");
+    op_vertical(scene_text(sc, ytitle_x, (py0 + py1) / 2, buffer, st.axis, 0, c->ink_secondary, ANCHOR_MIDDLE));
     snprintf(buffer, sizeof(buffer), "%s (%s%s)", xl, "lower is faster", ax.log ? ", log scale" : "");
     scene_text(sc, (px0 + px1) / 2, py1 + 1.25f * st.tick + 1.0f * u + font_cap_height(st.axis, 0), buffer, st.axis, 0, c->ink_secondary, ANCHOR_MIDDLE);
     free(xl);

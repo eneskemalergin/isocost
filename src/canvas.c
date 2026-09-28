@@ -112,6 +112,11 @@ Op *op_dash(Op *op, float on, float off) {
     return op;
 }
 
+Op *op_vertical(Op *op) {
+    op->vertical = 1;
+    return op;
+}
+
 void op_tooltip(Op *op, const char *text) {
     free(op->tooltip);
     op->tooltip = xstrdup(text);

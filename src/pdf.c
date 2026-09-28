@@ -199,6 +199,13 @@ static void content(const Scene *scene, Str *s, Resources *r) {
             break;
         case OP_TEXT: {
             double a = op->size / (double)font_units_per_em(op->bold);
+            if (op->vertical) {
+                /* Turn 90 degrees counterclockwise on the page about the text origin. */
+                str_append(s, "q 0 -1 1 0 ");
+                num(s, op->x - op->y);
+                num(s, op->x + op->y);
+                str_append(s, "cm\n");
+            }
             if (op->halo > 0) {
                 rgb_op(s, scene->background, "RG");
                 rgb_op(s, scene->background, "rg");
@@ -210,6 +217,7 @@ static void content(const Scene *scene, Str *s, Resources *r) {
             rgb_op(s, op->fill_color, "rg");
             set_alpha(s, r, op->fill_alpha);
             text_ops(s, r, op, 0);
+            if (op->vertical) str_append(s, "Q\n");
             break;
         }
         }

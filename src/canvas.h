@@ -29,6 +29,7 @@ typedef struct {
     float size;               /* text size in pixels (em) */
     int bold;
     int anchor;
+    int vertical;             /* text turned 90 degrees counterclockwise about its origin (reads bottom to top) */
     float halo;               /* halo width in pixels, 0 = none */
     char *tooltip;            /* SVG <title> */
 } Op;
@@ -55,6 +56,7 @@ Op *op_fill(Op *op, Rgb color, float alpha);
 Op *op_stroke(Op *op, Rgb color, float width, float alpha);
 Op *op_dash(Op *op, float on, float off);
 void op_tooltip(Op *op, const char *text);
+Op *op_vertical(Op *op);
 
 /* ---- font (font.c) ---- */
 typedef struct {

@@ -157,6 +157,8 @@ typedef struct {
     float minx, miny, maxx, maxy;
     float px, py, sx, sy;     /* pen and subpath start, for the outline sink */
     float ox, oy, scale;      /* glyph transform: px = ox + fx*scale, py = oy - fy*scale */
+    int vertical;             /* then turn 90 degrees counterclockwise about (rx, ry) */
+    float rx, ry;
 } Edges;
 
 static void edge(Edges *e, float x0, float y0, float x1, float y1) {
@@ -279,15 +281,29 @@ static void fill_polygon(Raster *r, const float *pts, int n) {
 
 /* ---- text ----------------------------------------------------------------- */
 
+/* Font units to pixels. */
+static void glyph_point(const Edges *e, float fx, float fy, float *x, float *y) {
+    float hx = e->ox + fx * e->scale, hy = e->oy - fy * e->scale;
+    if (e->vertical) {
+        *x = e->rx + (hy - e->ry);
+        *y = e->ry - (hx - e->rx);
+    } else {
+        *x = hx;
+        *y = hy;
+    }
+}
+
 static void sink_move(void *ctx, float x, float y) {
     Edges *e = ctx;
-    e->px = e->sx = e->ox + x * e->scale;
-    e->py = e->sy = e->oy - y * e->scale;
+    glyph_point(e, x, y, &e->px, &e->py);
+    e->sx = e->px;
+    e->sy = e->py;
 }
 
 static void sink_line(void *ctx, float x, float y) {
     Edges *e = ctx;
-    float nx = e->ox + x * e->scale, ny = e->oy - y * e->scale;
+    float nx, ny;
+    glyph_point(e, x, y, &nx, &ny);
     edge(e, e->px, e->py, nx, ny);
     e->px = nx;
     e->py = ny;
@@ -295,8 +311,9 @@ static void sink_line(void *ctx, float x, float y) {
 
 static void sink_quad(void *ctx, float cx, float cy, float x, float y) {
     Edges *e = ctx;
-    float qx = e->ox + cx * e->scale, qy = e->oy - cy * e->scale;
-    float nx = e->ox + x * e->scale, ny = e->oy - y * e->scale;
+    float qx, qy, nx, ny;
+    glyph_point(e, cx, cy, &qx, &qy);
+    glyph_point(e, x, y, &nx, &ny);
     float dev = hypotf(qx - (e->px + nx) / 2, qy - (e->py + ny) / 2);
     int steps = (int)ceilf(sqrtf(dev / 0.15f));
     if (steps < 1) steps = 1;
@@ -334,6 +351,9 @@ static void text_edges(const Op *op, Edges *e) {
     edges_reset(e);
     e->scale = op->size / (float)font_units_per_em(op->bold);
     e->oy = op->y;
+    e->vertical = op->vertical;
+    e->rx = op->x;
+    e->ry = op->y;
     for (size_t i = 0; i < n; i++) {
         e->ox = x + glyphs[i].x;
         font_outline(op->bold, glyphs[i].glyph, &raster_sink, e);

@@ -195,6 +195,13 @@ int render_svg(const Scene *scene, const char *path) {
             break;
         case OP_TEXT: {
             float scale = op->size / (float)font_units_per_em(op->bold);
+            if (op->vertical) {
+                str_append(&body, "<g transform=\"rotate(-90 ");
+                num(&body, op->x);
+                str_append(&body, " ");
+                num(&body, op->y);
+                str_append(&body, ")\">");
+            }
             str_append(&body, "<g aria-label=\"");
             xml(&body, op->text);
             str_append(&body, "\"");
@@ -218,7 +225,7 @@ int render_svg(const Scene *scene, const char *path) {
                 str_append(&body, "</title>");
             }
             glyph_uses(&body, op, used);
-            str_append(&body, "</g>\n");
+            str_append(&body, op->vertical ? "</g></g>\n" : "</g>\n");
             break;
         }
         }
