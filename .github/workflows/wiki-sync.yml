@@ -1,0 +1,67 @@
+name: Wiki
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'wiki/**'
+      - '.github/scripts/wiki_check.sh'
+      - '.github/scripts/wiki_publish.sh'
+      - '.github/workflows/wiki-sync.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'wiki/**'
+      - '.github/scripts/wiki_check.sh'
+      - '.github/scripts/wiki_publish.sh'
+      - '.github/workflows/wiki-sync.yml'
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish the current main-branch wiki after validation
+        type: boolean
+        default: false
+
+permissions: {}
+
+jobs:
+  validate:
+    name: Validate wiki source
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Check wiki pages and links
+        run: bash .github/scripts/wiki_check.sh wiki
+
+  publish:
+    name: Publish GitHub Wiki
+    needs: validate
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      (github.event_name == 'push' ||
+      (github.event_name == 'workflow_dispatch' && inputs.publish))
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    concurrency:
+      group: wiki-publish-${{ github.repository }}
+      cancel-in-progress: false
+    steps:
+      - name: Check out current main
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          persist-credentials: false
+
+      - name: Publish wiki pages
+        env:
+          WIKI_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash .github/scripts/wiki_publish.sh wiki
