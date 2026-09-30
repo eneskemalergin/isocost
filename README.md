@@ -97,4 +97,4 @@ isocost does not run benchmarks or sample processes. Zebrac measures; isocost re
 
 ## License
 
-MIT, see [LICENSE](LICENSE). The built-in DejaVu Sans glyphs keep their own license, see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+MIT, see [LICENSE](LICENSE). The built-in DejaVu Sans glyphs keep their own license, see [third_party/dejavu/LICENSE](third_party/dejavu/LICENSE).

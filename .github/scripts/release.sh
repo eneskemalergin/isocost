@@ -62,7 +62,8 @@ case "${1:-}" in
         binary=build/isocost-static
         mkdir "$work/$name" "$work/unpacked"
         cp "$binary" "$work/$name/isocost"
-        cp LICENSE THIRD_PARTY_NOTICES.md README.md CHANGELOG.md "$work/$name/"
+        cp LICENSE README.md CHANGELOG.md "$work/$name/"
+        cp third_party/dejavu/LICENSE "$work/$name/LICENSE-DejaVu"
         tar --sort=name --owner=0 --group=0 --numeric-owner --mtime=@0 \
             -czf "$work/$name.tar.gz" -C "$work" "$name"
         tar -xzf "$work/$name.tar.gz" -C "$work/unpacked"
@@ -74,7 +75,7 @@ case "${1:-}" in
         test "$actual" = "isocost $version"
         test ! -s "$work/stderr"
         cmp LICENSE "$work/unpacked/$name/LICENSE"
-        cmp THIRD_PARTY_NOTICES.md "$work/unpacked/$name/THIRD_PARTY_NOTICES.md"
+        cmp third_party/dejavu/LICENSE "$work/unpacked/$name/LICENSE-DejaVu"
 
         # The printed defaults must pass the binary's own check.
         env -i PATH=/usr/bin:/bin "$bin" config > "$work/isocost.toml"

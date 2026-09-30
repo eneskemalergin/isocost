@@ -43,7 +43,7 @@ Output is byte-identical across runs. Across compilers and C libraries, `summary
 3. Check locally: `bash .github/scripts/release.sh notes vX.Y.Z` and `bash .github/scripts/release.sh package x86_64 /tmp/out`.
 4. Commit, push, wait for CI, then `git tag vX.Y.Z && git push origin vX.Y.Z`.
 
-The archives are `isocost-X.Y.Z-ARCH-linux.tar.gz` with the binary, `LICENSE`, `THIRD_PARTY_NOTICES.md`, `README.md`, and `CHANGELOG.md`. Before an archive is published, `release.sh package` unpacks it, checks the version, renders every example in every format, and compares `summary.json`, SVG, and PDF output byte for byte with a native build that `make test` covers.
+The archives are `isocost-X.Y.Z-ARCH-linux.tar.gz` with the binary, `LICENSE`, `LICENSE-DejaVu`, `README.md`, and `CHANGELOG.md`. Before an archive is published, `release.sh package` unpacks it, checks the version, renders every example in every format, and compares `summary.json`, SVG, and PDF output byte for byte with a native build that `make test` covers.
 
 ## Writing
 
