@@ -35,7 +35,10 @@ void style_init(Style *s, const Config *config, const FigureSize *size) {
 double axis_space(const Axis *a, double v) { return a->log ? log(v) : v; }
 
 float axis_map(const Axis *a, double v) {
-    return a->p0 + (float)((axis_space(a, v) - a->lo) / (a->hi - a->lo)) * (a->p1 - a->p0);
+    double t = (axis_space(a, v) - a->lo) / (a->hi - a->lo);
+    /* An extreme ratio maps far off the canvas; keep pixels inside int range. */
+    t = fmax(-1e3, fmin(1e3, t));
+    return a->p0 + (float)t * (a->p1 - a->p0);
 }
 
 void axis_fit(Axis *a, double vmin, double vmax, double forced_min, double forced_max) {
@@ -59,10 +62,12 @@ static size_t log_ticks(const Axis *a, float pixels, float min_gap, double *tick
     static const double sets[5][10] = {{1, 1.25, 1.5, 2, 2.5, 3, 4, 5, 6, 8}, {1, 1.5, 2, 3, 5, 7}, {1, 2, 5}, {1, 3}, {1}};
     static const int sizes[5] = {10, 6, 3, 2, 1};
     double vlo = exp(a->lo), vhi = exp(a->hi);
+    /* exp() of an extreme ratio is 0 or inf; keep the decade range inside int. */
+    int klo = (int)fmax(floor(log10(vlo)), -330), khi = (int)fmin(ceil(log10(vhi)), 330);
     for (int s = 0; s < 5; s++) {
         size_t n = 0;
         int ok = 1;
-        for (int k = (int)floor(log10(vlo)) - 1; k <= (int)ceil(log10(vhi)) + 1 && n < max; k++)
+        for (int k = klo - 1; k <= khi + 1 && n < max; k++)
             for (int m = 0; m < sizes[s] && n < max; m++) {
                 double v = sets[s][m] * pow(10, k);
                 if (v >= vlo && v <= vhi) ticks[n++] = v;
