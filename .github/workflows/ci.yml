@@ -24,9 +24,6 @@ concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ !inputs.release }}
 
-env:
-  ZIG_VERSION: 0.16.0
-
 defaults:
   run:
     shell: bash
@@ -207,20 +204,16 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Install Zig
-        uses: mlugg/setup-zig@d1434d08867e3ee9daa34448df10607b98908d29 # v2.2.1
-        with:
-          version: ${{ env.ZIG_VERSION }}
-          cache-key: ${{ matrix.arch }}
-          use-cache: ${{ !inputs.release }}
-
-      - name: Check compiler and CPU
+      - name: Check CPU and container runtime
         run: |
           set -euo pipefail
-          test "$(zig version)" = "$ZIG_VERSION"
           test "$(uname -m)" = "$ARCH"
+          podman --version
 
+      # make static builds with GCC and musl in a pinned Alpine image, so no
+      # toolchain download depends on a third-party mirror.
       - name: Build and test release archive
+        timeout-minutes: 10
         run: bash .github/scripts/release.sh package "$ARCH" "$RUNNER_TEMP/release"
 
       - name: Retain tested release archive
