@@ -9,7 +9,7 @@
 #include "config.h"
 #include "util.h"
 
-#define ISOCOST_VERSION "1.0.0"
+#define ISOCOST_VERSION "0.1.0"
 
 enum { REC_OK, REC_FAILED, REC_INCOMPLETE, REC_BAD_UNIT };
 
