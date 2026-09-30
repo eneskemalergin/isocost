@@ -1,0 +1,140 @@
+name: isocost report
+description: Draw speed and memory figures and a report from Zebrac benchmark results.
+author: Enes Kemal Ergin
+branding:
+  icon: bar-chart-2
+  color: purple
+
+inputs:
+  results:
+    description: Zebrac JSON files, directories, or bench.meta.v1 sidecars, separated by spaces or newlines
+    required: true
+  output:
+    description: Report directory; replaced if it already holds a report
+    default: isocost-report
+  args:
+    description: Extra `isocost report` options, such as `--baseline "gzip -6" --format pdf`
+    default: ''
+  version:
+    description: isocost release to install, such as 0.1.0; empty uses the action's tag, else the latest release
+    default: ''
+  summary:
+    description: Add report.md, without its images, to the job summary
+    default: 'true'
+  upload:
+    description: Upload the report directory as a workflow artifact
+    default: 'true'
+  artifact-name:
+    description: Name of the uploaded artifact
+    default: isocost-report
+
+outputs:
+  report-dir:
+    description: The report directory
+    value: ${{ steps.report.outputs.report-dir }}
+  version:
+    description: The isocost version that ran
+    value: ${{ steps.install.outputs.version }}
+  exit-status:
+    description: isocost's exit status (0 report written, 2 usage or input error, 3 some comparisons not drawn)
+    value: ${{ steps.report.outputs.exit-status }}
+
+runs:
+  using: composite
+  steps:
+    - name: Install isocost
+      id: install
+      shell: bash
+      env:
+        VERSION: ${{ inputs.version }}
+        ACTION_REF: ${{ github.action_ref }}
+        REPOSITORY: ${{ github.action_repository || 'eneskemalergin/isocost' }}
+      run: |
+        set -euo pipefail
+        if [[ "$RUNNER_OS" != Linux ]]; then
+          echo "::error::isocost releases are Linux binaries; this runner is $RUNNER_OS" >&2
+          exit 1
+        fi
+        arch=$(uname -m)
+        case "$arch" in
+          x86_64|aarch64) ;;
+          *) echo "::error::no isocost release for $arch" >&2; exit 1 ;;
+        esac
+        if [[ -z "$VERSION" ]]; then
+          if [[ "$ACTION_REF" =~ ^v([0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
+            VERSION=${BASH_REMATCH[1]}
+          else
+            latest=$(curl -fsSLI -o /dev/null -w '%{url_effective}' "https://github.com/$REPOSITORY/releases/latest")
+            VERSION=${latest##*/v}
+          fi
+        fi
+        VERSION=${VERSION#v}
+        if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          echo "::error::cannot use isocost version '$VERSION'" >&2
+          exit 1
+        fi
+        name="isocost-$VERSION-$arch-linux"
+        dir="$RUNNER_TEMP/isocost-$VERSION"
+        mkdir -p "$dir"
+        cd "$dir"
+        base="https://github.com/$REPOSITORY/releases/download/v$VERSION"
+        curl -fsSLO "$base/$name.tar.gz"
+        curl -fsSLO "$base/SHA256SUMS"
+        grep -q " $name.tar.gz\$" SHA256SUMS
+        sha256sum --check --ignore-missing SHA256SUMS
+        tar -xzf "$name.tar.gz"
+        "$dir/$name/isocost" --version
+        printf 'version=%s\nbinary=%s\n' "$VERSION" "$dir/$name/isocost" >> "$GITHUB_OUTPUT"
+
+    - name: Write report
+      id: report
+      shell: bash
+      env:
+        RESULTS: ${{ inputs.results }}
+        OUTPUT: ${{ inputs.output }}
+        ARGS: ${{ inputs.args }}
+        ISOCOST: ${{ steps.install.outputs.binary }}
+      run: |
+        set -uo pipefail
+        mapfile -t inputs < <(printf '%s\n' "$RESULTS" | tr -s ' \t' '\n' | sed '/^$/d')
+        if [[ ${#inputs[@]} -eq 0 ]]; then
+          echo "::error::the results input is empty" >&2
+          exit 1
+        fi
+        # xargs splits on spaces and honors quotes without running anything.
+        extra=()
+        if [[ -n "$ARGS" ]]; then
+          mapfile -t extra < <(printf '%s' "$ARGS" | xargs -n1 printf '%s\n')
+        fi
+        status=0
+        "$ISOCOST" report "${inputs[@]}" -o "$OUTPUT" --force "${extra[@]}" || status=$?
+        printf 'report-dir=%s\nexit-status=%s\n' "$OUTPUT" "$status" >> "$GITHUB_OUTPUT"
+
+    - name: Summarize report
+      if: inputs.summary == 'true'
+      shell: bash
+      env:
+        OUTPUT: ${{ inputs.output }}
+      run: |
+        set -euo pipefail
+        if [[ -f "$OUTPUT/report.md" ]]; then
+          sed '/^!\[/d' "$OUTPUT/report.md" >> "$GITHUB_STEP_SUMMARY"
+        fi
+
+    - name: Upload report
+      if: inputs.upload == 'true'
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      with:
+        name: ${{ inputs.artifact-name }}
+        path: ${{ inputs.output }}
+        if-no-files-found: warn
+
+    - name: Check exit status
+      shell: bash
+      env:
+        STATUS: ${{ steps.report.outputs.exit-status }}
+      run: |
+        if [[ "$STATUS" != 0 ]]; then
+          echo "::error::isocost exited with status $STATUS; see the report and the log above" >&2
+          exit 1
+        fi
