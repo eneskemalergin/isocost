@@ -26,7 +26,7 @@ make test            # 43 checks
 make install         # copies it to ~/.local/bin (PREFIX=... to change)
 ```
 
-`make static` builds a static binary with `zig cc` and musl, the way releases are built.
+`make static` builds a static binary with GCC and musl in an Alpine container (podman or docker), the way releases are built.
 
 ## Measure with Zebrac
 

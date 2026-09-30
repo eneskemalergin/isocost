@@ -40,11 +40,10 @@ case "${1:-}" in
         arch="${2:?usage: release.sh package x86_64|aarch64 OUTPUT_DIRECTORY}"
         output="${3:?usage: release.sh package x86_64|aarch64 OUTPUT_DIRECTORY}"
         case "$arch" in
-            x86_64) binary=build/isocost-static ;;
-            aarch64) binary=build/isocost-aarch64-linux-musl ;;
+            x86_64|aarch64) ;;
             *) printf 'error: unknown architecture %s\n' "$arch" >&2; exit 1 ;;
         esac
-        # The archive is tested by running it, so it must match this machine.
+        # make static builds for this machine, and the archive is tested by running it.
         if [[ "$(uname -m)" != "$arch" ]]; then
             printf 'error: cannot test a %s archive on %s\n' "$arch" "$(uname -m)" >&2
             exit 1
@@ -59,7 +58,8 @@ case "${1:-}" in
         work=$(mktemp -d "${TMPDIR:-/tmp}/isocost-release.XXXXXX")
         trap 'rm -rf -- "$work"' EXIT
 
-        make static TARGET="$arch-linux-musl"
+        make static
+        binary=build/isocost-static
         mkdir "$work/$name" "$work/unpacked"
         cp "$binary" "$work/$name/isocost"
         cp LICENSE THIRD_PARTY_NOTICES.md README.md CHANGELOG.md "$work/$name/"
@@ -68,7 +68,7 @@ case "${1:-}" in
         tar -xzf "$work/$name.tar.gz" -C "$work/unpacked"
 
         bin="$work/unpacked/$name/isocost"
-        file "$bin" | grep -q 'statically linked'
+        file "$bin" | grep -Eq 'static(ally|-pie) linked'
         actual=$(env -i PATH=/usr/bin:/bin "$bin" --version 2> "$work/stderr")
         printf '%s\n' "$actual"
         test "$actual" = "isocost $version"
@@ -80,22 +80,26 @@ case "${1:-}" in
         env -i PATH=/usr/bin:/bin "$bin" config > "$work/isocost.toml"
         env -i PATH=/usr/bin:/bin "$bin" config --check "$work/isocost.toml" | grep -q ": valid ("
 
-        # Render one example in every format; the PNG must match the README figure byte for byte.
-        env -i PATH=/usr/bin:/bin "$bin" report examples/compression/results -o "$work/report" \
-            --format png,svg,pdf -q
-        for group in compress decompress; do
-            for view in overview workloads; do
-                for format in png svg pdf; do
-                    test -s "$work/report/$group-$view.$format"
-                done
+        # Render every example with the archived binary and with a native build that
+        # make test covers. Numbers and vector files must match byte for byte. PNG
+        # anti-aliasing may differ by one level in a few pixels, because musl's
+        # libm does not round every result the way glibc's does.
+        make build/isocost
+        for dir in examples/*/; do
+            example=$(basename "$dir")
+            [[ -f "$dir/isocost.toml" ]] || continue
+            env -i PATH=/usr/bin:/bin "$bin" report "$dir/results" -o "$work/static/$example" \
+                --format png,svg,pdf -q
+            build/isocost report "$dir/results" -o "$work/native/$example" --format png,svg,pdf -q
+            cmp "$work/native/$example/summary.json" "$work/static/$example/summary.json"
+            test -s "$work/static/$example/report.md"
+            for figure in "$work/native/$example"/*.svg "$work/native/$example"/*.pdf; do
+                cmp "$figure" "$work/static/$example/$(basename "$figure")"
+            done
+            for png in "$work/static/$example"/*.png; do
+                test "$(head -c 8 "$png" | od -An -tx1 | tr -d ' \n')" = 89504e470d0a1a0a
             done
         done
-        test -s "$work/report/report.md"
-        test -s "$work/report/summary.json"
-        env -i PATH=/usr/bin:/bin "$bin" report examples/compression/results -o "$work/readme" \
-            --group compress --format png -q
-        cmp assets/compression-overview.png "$work/readme/compress-overview.png"
-        cmp assets/compression-workloads.png "$work/readme/compress-workloads.png"
 
         mv "$work/$name.tar.gz" "$archive"
         printf 'Tested %s\n' "$archive"

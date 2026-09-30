@@ -28,7 +28,7 @@ Or build it with a C17 compiler:
 make                 # build/isocost
 make test            # 43 checks, including AddressSanitizer and UBSan
 make install         # copies it to ~/.local/bin (PREFIX=... to change)
-make static          # build/isocost-static, a static binary like the releases (needs zig)
+make static          # build/isocost-static, a static binary like the releases (needs podman or docker)
 ```
 
 ## Use

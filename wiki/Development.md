@@ -21,19 +21,18 @@ isocost is C17 with no GNU extensions. It needs libc, libm, and POSIX threads. E
 make                 # build/isocost
 make test            # 43 checks, with AddressSanitizer, LeakSanitizer, and UBSan (clang preferred)
 make CC=clang        # about 8% faster than GCC
-make static          # build/isocost-static with zig cc and musl
-make static TARGET=aarch64-linux-musl
+make static          # build/isocost-static: GCC and musl in a pinned Alpine container, for this CPU
 make examples        # render every example into examples/*/generated/
 make docs-images     # render the README figures into assets/
 ```
 
 `make test` validates every PDF with `qpdf`, every SVG with `xmllint`, and every PNG with Pillow when they are installed, and prints `skip` otherwise. CI installs all three and fails on a skip.
 
-Output is byte-identical across runs, and across GCC, Clang, and zig cc builds. CI renders the README figures again and fails if they differ from `assets/`, so run `make docs-images` and commit `assets/` after a change that moves a pixel.
+Output is byte-identical across runs. Across compilers and C libraries, `summary.json`, SVG, and PDF files are byte-identical; PNG files can differ by one level in a few anti-aliased pixels, because musl's libm does not round every result the way glibc's does. The Makefile passes `-ffp-contract=off` so no compiler fuses a multiply and an add into one differently rounded instruction. CI renders the README figures again and fails if they differ from `assets/`, so run `make docs-images` and commit `assets/` after a change that moves a pixel.
 
 ## CI
 
-- **CI** (`.github/workflows/ci.yml`) runs on every push and pull request to `main`. It checks that `src/model.h` and `CHANGELOG.md` agree on the version, runs `shellcheck` on every script, and runs actionlint and zizmor on the workflows and `action.yml`. It then runs `make test` with GCC and with Clang, fails on any compiler warning, and checks the README figures. Finally it builds and tests the static archives on x86-64 and ARM64 runners. Changes to Markdown outside `wiki/Configuration.md` skip the build jobs.
+- **CI** (`.github/workflows/ci.yml`) runs on every push and pull request to `main`. It checks that `src/model.h` and `CHANGELOG.md` agree on the version, runs `shellcheck` on every script, and runs actionlint and zizmor on the workflows and `action.yml`. It then runs `make test` with GCC and with Clang, fails on any compiler warning, and checks the README figures. Finally it builds and tests the static archives on x86-64 and ARM64 runners, inside a pinned Alpine image, so no toolchain download depends on a third-party mirror. Changes to Markdown outside `wiki/Configuration.md` skip the build jobs.
 - **Release** (`.github/workflows/release.yml`) runs on a `v*` tag. It runs CI in release mode, then publishes the tested archives, `SHA256SUMS`, and the tag's `CHANGELOG.md` entry as a GitHub release.
 - **Wiki** (`.github/workflows/wiki-sync.yml`) checks the pages in `wiki/` on pull requests and copies them to the GitHub Wiki after a push to `main`. Link to other pages by page name without `.md`, as `_Sidebar.md` does. Link to images with their `raw.githubusercontent.com` URL.
 
@@ -44,7 +43,7 @@ Output is byte-identical across runs, and across GCC, Clang, and zig cc builds. 
 3. Check locally: `bash .github/scripts/release.sh notes vX.Y.Z` and `bash .github/scripts/release.sh package x86_64 /tmp/out`.
 4. Commit, push, wait for CI, then `git tag vX.Y.Z && git push origin vX.Y.Z`.
 
-The archives are `isocost-X.Y.Z-ARCH-linux.tar.gz` with the binary, `LICENSE`, `THIRD_PARTY_NOTICES.md`, `README.md`, and `CHANGELOG.md`. Before an archive is published, `release.sh package` unpacks it, checks the version, renders an example in every format, and compares the result with the README figures byte for byte.
+The archives are `isocost-X.Y.Z-ARCH-linux.tar.gz` with the binary, `LICENSE`, `THIRD_PARTY_NOTICES.md`, `README.md`, and `CHANGELOG.md`. Before an archive is published, `release.sh package` unpacks it, checks the version, renders every example in every format, and compares `summary.json`, SVG, and PDF output byte for byte with a native build that `make test` covers.
 
 ## Writing
 

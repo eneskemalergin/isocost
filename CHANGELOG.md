@@ -17,6 +17,6 @@ First public version of isocost, a C17 program that needs only libc, libm, and P
 - `isocost.toml` configuration for tool names, colors, shapes, labels, references, titles, sizes, and axis limits. Unknown keys and wrong types are errors that name the line and suggest the closest key.
 - Six example benchmarks with real Zebrac 0.6.2 results: compression, checksums, text search, FASTQ subsampling, FASTA statistics, and CRC-32.
 - 43 tests, including golden values, failure exit codes, PDF, SVG, and PNG validation, and AddressSanitizer, LeakSanitizer, and UBSan runs.
-- Static Linux release archives for x86-64 and AArch64, built with `zig cc` and musl, with SHA-256 checksums.
+- Static Linux release archives for x86-64 and AArch64, built with GCC and musl in a pinned Alpine container, with SHA-256 checksums.
 - A GitHub Action (`uses: eneskemalergin/isocost@v0.1.0`) that downloads a release and writes a report from Zebrac results in another repository's workflow.
 - GitHub Wiki pages synchronized from `wiki/`, and CI that runs the tests with GCC and Clang, checks shell scripts and workflows, and checks that the README figures match the code.
