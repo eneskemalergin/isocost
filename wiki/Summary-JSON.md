@@ -11,7 +11,7 @@ Trimmed from `examples/compression`:
 ```json
 {
   "schema": "isocost.report.v1",
-  "isocost_version": "1.0.0",
+  "isocost_version": "0.1.0",
   "config": "examples/compression/isocost.toml",
   "exit_status": 0,
   "settings": {"statistic": "median", "cost": "geometric", "time_weight": 0.5, "memory_weight": 0.5, "cases": "all", "runs": "latest", "data": false},
@@ -53,7 +53,7 @@ Trimmed from `examples/compression`:
 - `schema`: always `"isocost.report.v1"` for this layout.
 - `isocost_version`: the program version that wrote the file.
 - `config`: the `isocost.toml` path that was used, or `null` for built-in defaults.
-- `exit_status`: the process exit status: `0`, `2`, or `3` (see [inputs.md](inputs.md)).
+- `exit_status`: the process exit status: `0`, `2`, or `3` (see [Inputs](Inputs#exit-status)).
 - `settings`: `statistic`, `cost`, `cases`, `runs`, and `data` as configured. `time_weight` and `memory_weight` are normalized to sum to 1.
 - `inputs.files`: Zebrac files read. `inputs.results`: results in this report. `inputs.excluded`: results from older runs or filtered groups. `inputs.not_zebrac`: JSON files skipped because they are not Zebrac results.
 - `inputs.identity_rules`: how many results each naming rule named, keyed by rule (`config`, `sidecar`, `workload.tsv`, `path layout`, `case--variant`, `case__tool`, `command diff`, `argv0`).

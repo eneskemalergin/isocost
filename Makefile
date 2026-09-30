@@ -6,7 +6,7 @@
 #   make static          build/isocost-static, a static Linux binary via `zig cc` (musl);
 #                        TARGET=aarch64-linux-musl builds for 64-bit ARM
 #   make examples        render every example into examples/*/generated/
-#   make docs-images     render the figures used in README.md and docs/
+#   make docs-images     render the figures used in README.md and wiki/
 #   make font            regenerate src/font_data.h (needs Python 3; Pillow adds kerning)
 #   make install         copy build/isocost to $(PREFIX)/bin (PREFIX defaults to ~/.local)
 #   make clean
@@ -65,10 +65,10 @@ examples: build/isocost
 	examples/render.sh
 
 docs-images: build/isocost
-	mkdir -p docs/images
+	mkdir -p assets
 	build/isocost report examples/compression/results -o build/docs-images --group compress --format png --force -q
-	cp build/docs-images/compress-overview.png docs/images/compression-overview.png
-	cp build/docs-images/compress-workloads.png docs/images/compression-workloads.png
+	cp build/docs-images/compress-overview.png assets/compression-overview.png
+	cp build/docs-images/compress-workloads.png assets/compression-workloads.png
 
 font:
 	python3 tools/gen_font.py src/font_data.h

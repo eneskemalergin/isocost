@@ -6,7 +6,7 @@ Seven compressors at common levels, compressing and decompressing three 16 MiB i
 build/isocost report examples/compression/results -o examples/compression/generated
 ```
 
-![Compression overview](../../docs/images/compression-overview.png)
+![Compression overview](../../assets/compression-overview.png)
 
 Relative to `gzip -6`, `pigz -6` (all cores) compresses in 0.054x the time and is the only tool besides gzip that no other tool beats on both axes; `gzip -6` uses the least memory. For decompression, zstd is fastest (0.53x the time of `gzip -d`), and gzip, pigz, and zstd are all unbeaten on both axes.
 

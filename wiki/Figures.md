@@ -4,7 +4,7 @@ Every comparison has two figures. Both put the reference tool at 1x and use the 
 
 ## Overview
 
-![Overview of seven compressors](images/compression-overview.png)
+![Overview of seven compressors](https://raw.githubusercontent.com/eneskemalergin/isocost/main/assets/compression-overview.png)
 
 - **Large marks**: each tool's geometric mean over the workloads it was measured on. The legend shows `n=` when tools were measured on different numbers of workloads. An aggregate over fewer workloads is not directly comparable, and `report.md` says so.
 - **Faint marks**: single workloads.
@@ -20,7 +20,7 @@ Bars and outlines describe how a tool varies across workloads. They are not conf
 
 ## Workloads
 
-![Workloads view of seven compressors](images/compression-workloads.png)
+![Workloads view of seven compressors](https://raw.githubusercontent.com/eneskemalergin/isocost/main/assets/compression-workloads.png)
 
 One row per workload and one panel per metric. Each mark is one tool's value divided by the reference's value on that workload, and the vertical line at 1x is the reference. Use it to see whether a good average hides a workload where a tool loses.
 

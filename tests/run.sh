@@ -4,11 +4,13 @@
 # Uses only files in this repository: examples/*/results (real Zebrac output)
 # and tests/fixtures (hand-written edge cases). Scratch files go to a
 # temporary directory that is removed on exit.
+# ok always returns 0, so `check && ok ... || bad ...` never runs both.
+# shellcheck disable=SC2015,SC2001
 set -uo pipefail
 export LC_ALL=C
 
-ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
-cd "$ROOT"
+ROOT=$(CDPATH='' cd -- "$(dirname -- "$0")/.." && pwd)
+cd "$ROOT" || exit 1
 BIN=build/isocost
 SAN=build/isocost-sanitize
 WORK=$(mktemp -d "${TMPDIR:-/tmp}/isocost-test.XXXXXX")
@@ -72,9 +74,9 @@ expect "config: TOML syntax error with line and column" 2 'syntax.toml:2:22: unt
 expect "config: duplicate tool id" 2 'also defined on line 1' -- config --check tests/fixtures/config/duplicate-tool.toml
 expect "config: error stops a report" 2 'did you mean' -- report tests/fixtures/golden --config tests/fixtures/config/unknown-key.toml -o "$WORK/x"
 
-# ---- the TOML examples in docs/config.md form one valid config ---------------------------------
-awk '/^```toml/{f=1;next} /^```/{f=0} f' docs/config.md > "$WORK/doc-examples.toml"
-expect "docs/config.md: every TOML example parses" 0 "valid" -- config --check "$WORK/doc-examples.toml"
+# ---- the TOML examples in wiki/Configuration.md form one valid config ---------------------------------
+awk '/^```toml/{f=1;next} /^```/{f=0} f' wiki/Configuration.md > "$WORK/doc-examples.toml"
+expect "wiki/Configuration.md: every TOML example parses" 0 "valid" -- config --check "$WORK/doc-examples.toml"
 
 # ---- printed defaults round-trip through the parser ----------------------------------------------
 "$BIN" config > "$WORK/defaults.toml"
