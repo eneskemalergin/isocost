@@ -10,3 +10,6 @@
 # Local workspace: experiments and planning
 /tmp/
 /plan/
+
+# Python bytecode (CI compiles tools/gen_font.py)
+__pycache__/
